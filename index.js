@@ -26,7 +26,7 @@ mongoose.connect(dbConf.URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 
 
-app.use('/api/v1/contacts', contactsController);
+app.use('/contacts', contactsController);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => {
     console.log(`Application connected to port ${port}`);
