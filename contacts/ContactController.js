@@ -23,6 +23,16 @@ const fetchContacts = (request, response, next) => {
         });
 };
 
+const getContact = (request, response, next) => {
+    const {id: _id} = request.params;
+    Contact.findOne({_id})
+        .then(data => response.send(data))
+        .catch(error => {
+            console.log(error);
+            response.status(500).send('Get contact failure')
+        });
+};
+
 const createContact = (request, response, next) => {
     const {body: contact} = request;
     Contact.create(contact)
@@ -31,8 +41,8 @@ const createContact = (request, response, next) => {
 };
 
 const removeContact = (request, response, next) => {
-    const {_id} = request.params;
-    Contact.findOneAndRemove(_id)
+    const {id} = request.params;
+    Contact.findOneAndRemove(id)
         .then(i => response.send(i))
         .catch(error => response.status(500).send('Remove contact failure'));
 };
@@ -47,6 +57,7 @@ const updateContact = (request, response, next) => {
 };
 
 route.get('/', fetchContacts);
+route.get('/:id', getContact);
 route.post('/', createContact);
 route.put('/', updateContact);
 route.delete('/:id', removeContact);

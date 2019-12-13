@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 4000;
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const app = express();
 
 app.use(bodyParser.json());
@@ -24,7 +26,10 @@ mongoose.connect(dbConf.URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 
 
-app.use('/contacts', contactsController);
+app.use('/api/v1/contacts', contactsController);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => {
     console.log(`Application connected to port ${port}`);
 });
+
+module.exports = app;
